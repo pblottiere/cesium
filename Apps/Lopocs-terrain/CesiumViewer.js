@@ -198,5 +198,5 @@ define([
         });
     }
 
-    loadTileset("terrain/");
+    loadTileset("tileset.json");
 });
