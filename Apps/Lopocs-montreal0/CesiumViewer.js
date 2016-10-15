@@ -7,6 +7,9 @@ define([
         'Cesium/Core/Math',
         'Cesium/Core/objectToQuery',
         'Cesium/Core/queryToObject',
+        'Cesium/Core/EllipsoidTerrainProvider',
+        'Cesium/Core/CesiumTerrainProvider',
+        'Cesium/Core/VRTheWorldTerrainProvider',
         'Cesium/DataSources/CzmlDataSource',
         'Cesium/Scene/Cesium3DTileset',
         'Cesium/DataSources/GeoJsonDataSource',
@@ -24,6 +27,9 @@ define([
         CesiumMath,
         objectToQuery,
         queryToObject,
+        EllipsoidTerrainProvider,
+        CesiumTerrainProvider,
+        VRTheWorldTerrainProvider,
         CzmlDataSource,
         Cesium3DTileset,
         GeoJsonDataSource,
@@ -43,10 +49,24 @@ define([
         });
     }
 
+    /*var cesiumTerrainProviderMeshes = new CesiumTerrainProvider({
+        url : 'https://assets.agi.com/stk-terrain/world',
+        requestWaterMask : true,
+        requestVertexNormals : true
+    });*/
+
+    //var ellipsoidProvider = new EllipsoidTerrainProvider();
+
+    /*var vrTheWorldProvider = new VRTheWorldTerrainProvider({
+        url : 'http://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/',
+        credit : 'Terrain data courtesy VT MÄK'
+    });*/
+
     var loadingIndicator = document.getElementById('loadingIndicator');
     var viewer;
     try {
         viewer = new Viewer('cesiumContainer', {
+        //    terrainProvider : ellipsoidProvider,
             imageryProvider : imageryProvider,
             baseLayerPicker : !defined(imageryProvider),
             scene3DOnly : endUserOptions.scene3DOnly
@@ -60,6 +80,22 @@ define([
         }
         return;
     }
+
+    var terrainProvider = new CesiumTerrainProvider({
+        url : '//assets.agi.com/stk-terrain/world',
+        requestVertexNormals: true
+    });
+
+    var ellipsoidProvider = new EllipsoidTerrainProvider();
+
+    var vrTheWorldProvider = new VRTheWorldTerrainProvider({
+        url : 'http://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/',
+        credit : 'Terrain data courtesy VT MÄK'
+    });
+
+    // viewer.terrainProvider = terrainProvider;
+    // viewer.terrainProvider = ellipsoidProvider;
+    viewer.terrainProvider = vrTheWorldProvider;
 
     viewer.extend(viewerDragDropMixin);
     if (endUserOptions.inspector) {
@@ -198,5 +234,5 @@ define([
         });
     }
 
-    loadTileset("montreal/");
+    loadTileset("tileset.json");
 });
