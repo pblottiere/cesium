@@ -7,6 +7,7 @@ define([
         'Cesium/Core/Math',
         'Cesium/Core/objectToQuery',
         'Cesium/Core/queryToObject',
+        'Cesium/Core/VRTheWorldTerrainProvider',
         'Cesium/DataSources/CzmlDataSource',
         'Cesium/Scene/Cesium3DTileset',
         'Cesium/DataSources/GeoJsonDataSource',
@@ -24,6 +25,7 @@ define([
         CesiumMath,
         objectToQuery,
         queryToObject,
+        VRTheWorldTerrainProvider,
         CzmlDataSource,
         Cesium3DTileset,
         GeoJsonDataSource,
@@ -60,6 +62,13 @@ define([
         }
         return;
     }
+
+    var vrTheWorldProvider = new VRTheWorldTerrainProvider({
+        url : 'http://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/',
+        credit : 'Terrain data courtesy VT MÄK'
+    });
+
+    viewer.terrainProvider = vrTheWorldProvider;
 
     viewer.extend(viewerDragDropMixin);
     if (endUserOptions.inspector) {
